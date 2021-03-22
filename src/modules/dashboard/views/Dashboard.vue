@@ -26,7 +26,7 @@
                 mdi-shopping
               </v-icon>
               <h5 class="mb-2">Total Products</h5>
-              <h3>907</h3>
+              <h3>{{ products.length }}</h3>
             </v-sheet>
           </v-col>
 
@@ -41,7 +41,7 @@
                 mdi-account-group
               </v-icon>
               <h5 class="mb-2">Suppliers</h5>
-              <h3>30</h3>
+              <h3>{{ suppliers.length }}</h3>
             </v-sheet>
           </v-col>
 
@@ -57,7 +57,7 @@
                 mdi-cash-multiple
               </v-icon>
               <h5 class="mb-2">Total Orders</h5>
-              <h3>70</h3>
+              <h3>{{  orders.length }}</h3>
             </v-sheet>
           </v-col>
         </v-row>
@@ -117,7 +117,18 @@ export default {
       "Nov",
       "Dec"
     ]
-  })
+  }),
+  computed: {
+    products() {
+      return this.$store.getters["Dashboard/products"];
+    },
+    orders() {
+      return this.$store.getters["Dashboard/orders"];
+    },
+    suppliers() {
+      return this.$store.getters["Dashboard/suppliers"];
+    }
+  }
 };
 </script>
 
