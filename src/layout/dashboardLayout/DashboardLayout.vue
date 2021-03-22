@@ -93,7 +93,7 @@
       <v-footer absolute style="bottom: 0" light color="white">
         <v-row>
           <v-col cols="12">
-            <p>© 2021 Timeless Courier. All Rights Reserved</p>
+            <p>© 2021 Solutech. All Rights Reserved</p>
           </v-col>
         </v-row>
       </v-footer>
