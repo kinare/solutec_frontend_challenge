@@ -1,30 +1,42 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import nextFactory from "@/router/middleware/MiddlewareFactory";
+import { AuthRoutes } from "@/modules/auth";
+import Landing from "@/layout/landingLayout/LandingLayout";
+import { DashboardRoutes } from "@/modules/dashboard";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
+    component: Landing
   },
-  {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
-  },
+  ...AuthRoutes,
+  ...DashboardRoutes
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes,
+  routes
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.middleware) {
+    const middleware = Array.isArray(to.meta.middleware)
+      ? to.meta.middleware
+      : [to.meta.middleware];
+
+    const context = {
+      from,
+      next,
+      router
+    };
+    const nextMiddleware = nextFactory(context, middleware, 1);
+    return middleware[0]({ ...context, next: nextMiddleware });
+  }
+  return next();
 });
 
 export default router;
